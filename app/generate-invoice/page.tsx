@@ -1,12 +1,22 @@
 import GenerateInvoiceForm from "@/components/GenerateInvoiceForm"
+import { Section } from "@/components/ui/section"
+import { Container } from "@/components/ui/container"
 
-const GenerateInvoicePage = () => {
+export default function GenerateInvoicePage() {
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Generate Invoice</h1>
-      <GenerateInvoiceForm />
-    </div>
+    <Section className="py-12 md:py-20 bg-slate-50">
+      <Container>
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Generate an Invoice</h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            A simple tool to help you create professional invoices. Fill out the form below to get started. The
+            generated invoice is for preview purposes only.
+          </p>
+        </div>
+        <div className="mt-10">
+          <GenerateInvoiceForm />
+        </div>
+      </Container>
+    </Section>
   )
 }
-
-export default GenerateInvoicePage

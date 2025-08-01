@@ -43,7 +43,7 @@ const AboutPage = () => {
             </div>
             <div>
               <Image
-                src="/placeholder.svg?height=500&width=600"
+                src="/modern-office-collaboration.png"
                 alt="A modern office environment showing collaboration and technology"
                 width={600}
                 height={500}
@@ -100,58 +100,16 @@ const AboutPage = () => {
 
       <Section>
         <Container>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">Meet Our Leadership</h2>
-            <p className="text-lg text-gray-600 mt-3 max-w-3xl mx-auto">
-              Our team combines deep industry knowledge with a passion for innovation.
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">Our Team: Your Strategic Partner</h2>
+            <p className="text-lg text-gray-600 mt-4 max-w-4xl mx-auto">
+              At PND50, we are driven by the ambition to be the leading technology-driven accounting firm in Thailand.
+              As a boutique company, we provide a level of personalized service and attention to detail that larger
+              firms cannot match. Our team is a dedicated blend of seasoned financial experts and tech innovators,
+              united by a single mission: to empower your business. We specialize in navigating the complexities of the
+              Thai market for our international clients, transforming regulatory challenges into opportunities for
+              growth. We don't just manage your books; we partner with you to build a foundation for lasting success.
             </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-            <div className="text-center">
-              <Image
-                src="/placeholder.svg?height=200&width=200"
-                alt="Photo of Jane Doe"
-                width={200}
-                height={200}
-                className="rounded-full mx-auto mb-4 shadow-lg"
-              />
-              <h4 className="text-xl font-bold">Jane Doe</h4>
-              <p className="text-blue-600">Managing Partner</p>
-              <p className="text-gray-600 mt-2 text-sm">
-                A certified public accountant with over 15 years of experience helping foreign enterprises thrive in the
-                Thai market.
-              </p>
-            </div>
-            <div className="text-center">
-              <Image
-                src="/placeholder.svg?height=200&width=200"
-                alt="Photo of John Smith"
-                width={200}
-                height={200}
-                className="rounded-full mx-auto mb-4 shadow-lg"
-              />
-              <h4 className="text-xl font-bold">John Smith</h4>
-              <p className="text-blue-600">Head of Technology</p>
-              <p className="text-gray-600 mt-2 text-sm">
-                The architect of our proprietary platform, John brings a wealth of experience from the fintech sector to
-                revolutionize accounting.
-              </p>
-            </div>
-            <div className="text-center">
-              <Image
-                src="/placeholder.svg?height=200&width=200"
-                alt="Photo of Emily White"
-                width={200}
-                height={200}
-                className="rounded-full mx-auto mb-4 shadow-lg"
-              />
-              <h4 className="text-xl font-bold">Emily White</h4>
-              <p className="text-blue-600">Director of Client Relations</p>
-              <p className="text-gray-600 mt-2 text-sm">
-                Emily ensures every client receives personalized, strategic advice and seamless service, acting as a
-                true partner in their growth journey.
-              </p>
-            </div>
           </div>
         </Container>
       </Section>

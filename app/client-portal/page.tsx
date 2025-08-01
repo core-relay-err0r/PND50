@@ -1,73 +1,41 @@
-import type { Metadata } from "next"
-// import { redirect } from "next/navigation"
-// import { auth } from "@/auth" // This file does not exist
-import { Main } from "@/components/main"
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { MobileSidebar } from "@/components/mobile-sidebar"
-import { Home, Settings } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import Link from "next/link"
 
-export const metadata: Metadata = {
-  title: "Client Portal",
-  description: "Client Portal",
-}
-
-const ClientPortalPage = () => {
-  // const session = await auth()
-
-  // if (!session?.user) {
-  //   redirect("/sign-in")
-  // }
-
+export default function ClientPortalPage() {
   return (
-    <SidebarProvider>
-      <div className="h-full bg-background">
-        <div className="hidden md:block">
-          <Sidebar>
-            <SidebarHeader>
-              <SidebarTrigger />
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Home" isActive>
-                    <Home />
-                    Home
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Settings">
-                    <Settings />
-                    Settings
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarContent>
-            <SidebarFooter>{/* Footer content */}</SidebarFooter>
-          </Sidebar>
-        </div>
-        <div className="md:hidden">
-          <MobileSidebar />
-        </div>
-        <Main>
-          <div className="p-4">
-            <h1 className="text-2xl font-bold">Client Portal</h1>
-            <p>Welcome to your client portal.</p>
-            {/* Page content goes here */}
+    <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] bg-gray-100 dark:bg-gray-950 px-4 py-12">
+      <Card className="w-full max-w-sm mx-auto">
+        <CardHeader className="text-center space-y-2">
+          <CardTitle className="text-2xl font-bold">Client Portal</CardTitle>
+          <CardDescription>Sign in to access your secure dashboard.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="m@example.com" required />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Link href="#" className="ml-auto inline-block text-sm underline" prefetch={false}>
+                  Forgot your password?
+                </Link>
+              </div>
+              <Input id="password" type="password" required />
+            </div>
+            <Button type="submit" className="w-full">
+              Sign In
+            </Button>
+            <p className="text-center text-xs text-muted-foreground pt-2">
+              This is a demonstration portal. Functionality is currently disabled.
+            </p>
           </div>
-        </Main>
-      </div>
-    </SidebarProvider>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
-
-export default ClientPortalPage

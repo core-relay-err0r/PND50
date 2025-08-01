@@ -1,11 +1,6 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   TrendingUp,
-  ArrowRight,
-  PlayCircle,
   BrainCircuit,
   AreaChart,
   ShieldCheck,
@@ -17,19 +12,13 @@ import {
   CheckCircle2,
 } from "lucide-react"
 import Link from "next/link"
-import { useModal } from "@/contexts/modal-context"
 import { AnimatedGridBackground } from "@/components/ui/animated-grid-background"
 import { Progress } from "@/components/ui/progress"
+import { HomepageCtas } from "@/components/HomepageCtas"
+import { SecurityCta } from "@/components/SecurityCta"
+import { FinalCta } from "@/components/FinalCta"
 
 export default function PND50Landing() {
-  const { openModal } = useModal()
-
-  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    "8 T-One Building, Sukhumvit Rd, Phra Khanong, Khlong Toei, Bangkok 10110",
-  )}`
-  const phoneUrl = "tel:+6621234567"
-  const emailUrl = "mailto:info@pnd50.com"
-
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans">
       <main>
@@ -69,25 +58,7 @@ export default function PND50Landing() {
                   <span>Expat Specialists</span>
                 </div>
               </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                  onClick={openModal}
-                  size="lg"
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 text-lg font-bold rounded-lg shadow-lg shadow-blue-500/20 transition-all duration-300 transform hover:scale-105 btn-pulse"
-                >
-                  Schedule Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white px-8 py-6 text-lg font-bold rounded-lg transition-colors bg-transparent"
-                >
-                  <PlayCircle className="mr-2 h-5 w-5" />
-                  See How It Works
-                </Button>
-              </div>
+              <HomepageCtas />
             </div>
           </AnimatedGridBackground>
         </section>
@@ -215,13 +186,7 @@ export default function PND50Landing() {
                   </div>
                 </div>
                 <div className="mt-10">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-100 bg-transparent"
-                  >
-                    See Security Details
-                  </Button>
+                  <SecurityCta />
                 </div>
               </div>
               <div className="p-2 rounded-2xl bg-gradient-to-br from-blue-200 to-purple-200">
@@ -290,19 +255,7 @@ export default function PND50Landing() {
                 <span>Expat Specialists</span>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                onClick={openModal}
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-200 px-10 py-4 text-xl font-bold rounded-lg shadow-2xl transition-transform duration-300 hover:scale-105 w-full sm:w-auto"
-              >
-                Schedule Free Consultation
-              </Button>
-              <Button variant="link" className="text-blue-100 hover:text-white text-lg">
-                <PlayCircle className="mr-2 h-5 w-5" />
-                See How It Works
-              </Button>
-            </div>
+            <FinalCta />
           </div>
         </section>
       </main>
