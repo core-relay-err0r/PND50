@@ -1,136 +1,111 @@
 "use client"
-
-import type React from "react"
-
-import { useState } from "react"
+import { useEffect } from "react"
+import { useActionState } from "react"
+import { scheduleConsultation, type FormState } from "@/app/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { CheckCircle2, AlertTriangle } from "lucide-react"
 
 interface ConsultationModalProps {
   isOpen: boolean
   onClose: () => void
 }
 
-interface FormData {
-  name: string
-  email: string
-  phone: string
-}
-
-interface FormErrors {
-  name?: string
-  email?: string
+const initialState: FormState = {
+  message: "",
+  status: "error",
 }
 
 export default function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    phone: "",
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [state, formAction, isPending] = useActionState(scheduleConsultation, initialState)
 
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
-  const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-    // Clear error when user starts typing
-    if (errors[field as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+  useEffect(() => {
+    if (state.status === "success") {
+      const timer = setTimeout(() => {
+        onClose()
+      }, 2000) // Close modal after 2 seconds on success
+      return () => clearTimeout(timer)
     }
-  }
+  }, [state.status, onClose])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    // Validation
-    const newErrors: FormErrors = {}
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required"
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = "Please enter a valid email address"
-    }
-
-    setErrors(newErrors)
-
-    // If no errors, submit the form
-    if (Object.keys(newErrors).length === 0) {
-      console.log("Form submitted:", formData)
-
-      // Reset form and close modal
-      setFormData({ name: "", email: "", phone: "" })
+  const handleClose = () => {
+    if (!isPending) {
       onClose()
     }
-
-    setIsSubmitting(false)
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">Schedule Consultation</DialogTitle>
+          <DialogDescription>Fill out the form below and we'll get back to you shortly.</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name *</Label>
-            <Input
-              id="name"
-              type="text"
-              value={formData.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              className={errors.name ? "border-red-500 focus:border-red-500" : ""}
-              placeholder="Enter your full name"
-            />
-            {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+        {state.status === "success" ? (
+          <div className="flex flex-col items-center justify-center p-8 text-center">
+            <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
+            <h3 className="text-lg font-medium text-gray-900">Success!</h3>
+            <p className="text-sm text-gray-600">{state.message}</p>
           </div>
+        ) : (
+          <form action={formAction} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name *</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Enter your full name"
+                required
+                className={state.errors?.name ? "border-red-500 focus:border-red-500" : ""}
+              />
+              {state.errors?.name && <p className="text-sm text-red-500">{state.errors.name[0]}</p>}
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              className={errors.email ? "border-red-500 focus:border-red-500" : ""}
-              placeholder="Enter your email address"
-            />
-            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email *</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email address"
+                required
+                className={state.errors?.email ? "border-red-500 focus:border-red-500" : ""}
+              />
+              {state.errors?.email && <p className="text-sm text-red-500">{state.errors.email[0]}</p>}
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone (Optional)</Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              placeholder="Enter your phone number"
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone (Optional)</Label>
+              <Input id="phone" name="phone" type="tel" placeholder="Enter your phone number" />
+            </div>
 
-          <div className="flex gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={onClose} className="flex-1">
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isSubmitting} className="flex-1 bg-black hover:bg-gray-800 text-white">
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </Button>
-          </div>
-        </form>
+            {state.status === "error" && state.message && !state.errors && (
+              <div className="flex items-center gap-2 text-sm text-red-500 p-3 bg-red-50 rounded-md">
+                <AlertTriangle className="h-4 w-4" />
+                <span>{state.message}</span>
+              </div>
+            )}
+
+            <div className="flex gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+                className="flex-1 bg-transparent"
+                disabled={isPending}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isPending} className="flex-1 bg-black hover:bg-gray-800 text-white">
+                {isPending ? "Submitting..." : "Submit"}
+              </Button>
+            </div>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   )
